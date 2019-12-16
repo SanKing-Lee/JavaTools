@@ -1,4 +1,4 @@
-package View;
+package Toolkit.View;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,5 +20,10 @@ public class ToolFrame extends JFrame {
         ttp.setBounds(12, 12, 376, 140);
         add(ttp);
 
+        TextCodeTransPanel tctp = new TextCodeTransPanel();
+        tctp.setBounds(12, 152, 376, 416);
+        add(tctp);
+
+        setResizable(false);
     }
 }

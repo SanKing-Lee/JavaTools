@@ -1,4 +1,6 @@
-import View.ToolFrame;
+package Toolkit;
+
+import Toolkit.View.ToolFrame;
 
 import java.awt.*;
 

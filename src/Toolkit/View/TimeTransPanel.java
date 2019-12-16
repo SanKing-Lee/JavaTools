@@ -1,4 +1,4 @@
-package View;
+package Toolkit.View;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -38,9 +38,10 @@ public class TimeTransPanel extends JPanel {
             Matcher matcher = pattern.matcher(millisecond);
             if(matcher.matches()) {
                 taTime.setText(dateFormat.format(Long.parseLong(millisecond)));
+//                tfSeconds.setText("");
             }
             else {
-                taTime.setText("");
+                taTime.setText("格式错误");
             }
         });
 
@@ -55,9 +56,10 @@ public class TimeTransPanel extends JPanel {
             Matcher matcher = pattern.matcher(second);
             if(matcher.matches()) {
                 taTime.setText(dateFormat.format((Long.parseLong(second))*1000));
+//                tfMilliseconds.setText("");
             }
             else {
-                taTime.setText("");
+                taTime.setText("格式错误");
             }
         });
 
@@ -74,6 +76,7 @@ public class TimeTransPanel extends JPanel {
 
 //        taTime.setBounds(12, 98, 376, 60);
         taTime.setBorder(new TitledBorder("北京时间"));
+        taTime.setEditable(false);
 
         setLayout(new GridLayout(2, 1));
         setBorder(new TitledBorder("时间转换"));
