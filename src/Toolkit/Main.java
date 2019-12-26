@@ -1,13 +1,13 @@
 package Toolkit;
 
-import Toolkit.View.ToolFrame;
+import Toolkit.View.MainFrame;
 
 import java.awt.*;
 
 public class Main {
     public static void main(String[] args) {
         EventQueue.invokeLater(()->{
-            ToolFrame frame = new ToolFrame("Tools");
+            MainFrame frame = new MainFrame("Tools");
             frame.setVisible(true);
         });
     }

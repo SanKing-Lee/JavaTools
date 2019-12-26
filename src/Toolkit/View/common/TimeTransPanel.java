@@ -1,4 +1,4 @@
-package Toolkit.View;
+package Toolkit.View.common;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -18,8 +18,8 @@ public class TimeTransPanel extends JPanel {
 
     public TimeTransPanel() {
         super();
-        labelMilliseconds = new JLabel("毫秒时间戳(ms)");
-        labelSeconds = new JLabel("Unix时间戳(s)");
+        labelMilliseconds = new JLabel("\t毫秒时间戳(ms)");
+        labelSeconds = new JLabel("\tUnix时间戳(s)");
         labelTime = new JLabel("北京时间");
 
         tfMilliseconds = new JTextField(40);
