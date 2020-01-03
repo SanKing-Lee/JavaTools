@@ -1,7 +1,7 @@
 package Toolkit.View;
 
 import Toolkit.View.common.CommonPanel;
-import Toolkit.View.net.NetPanel;
+import Toolkit.View.net.HttpDatagramParserPanel;
 
 import javax.swing.*;
 
@@ -16,9 +16,9 @@ public class TabbedToolsPanel extends JTabbedPane {
         commonPanel.setBounds(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT);
         addTab("常用工具", commonPanel);
 
-        NetPanel netPanel = new NetPanel();
-        netPanel.setBounds(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT);
-        addTab("网络工具", netPanel);
+        HttpDatagramParserPanel hdpp = new HttpDatagramParserPanel();
+        hdpp.setBounds(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        addTab("Http数据报解析", hdpp);
 
         setSelectedIndex(0);
     }
