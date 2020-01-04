@@ -1,5 +1,6 @@
 package Toolkit.Controller;
 
+import Toolkit.Model.ConfigFrame.FormatConfig;
 import Toolkit.Model.HttpDatagram.RequestBody;
 import Toolkit.Model.HttpDatagram.RequestHeader;
 import Toolkit.Model.HttpDatagram.RequestLine;
@@ -10,6 +11,10 @@ import Toolkit.View.InformationPanel;
 import java.util.List;
 
 public class HttpDatagramParser {
+    public static final int REQUEST_LINE = 0;
+    public static final int REQUEST_HEADER = 1;
+    public static final int REQUEST_BODY = 2;
+
     private static HttpDatagramParser mInstance;
 
     private RequestLine requestLine;
@@ -87,5 +92,33 @@ public class HttpDatagramParser {
 
     public String getFormatBody() {
         return requestBody.getFormatBody();
+    }
+
+    public String getRawReqLine() {
+        return sReqLine;
+    }
+
+    public String getRawReqHead() {
+        return sReqHead;
+    }
+
+    public String getRawReqBody() {
+        return sReqBody;
+    }
+
+    public void setFormatConfig(int type, FormatConfig formatConfig) {
+        switch (type) {
+            case REQUEST_LINE:
+                RequestLine.setFormatConfig(formatConfig);
+                break;
+            case REQUEST_HEADER:
+                RequestHeader.setFormatConfig(formatConfig);
+                break;
+            case REQUEST_BODY:
+                RequestBody.setFormatConfig(formatConfig);
+                break;
+            default:
+                break;
+        }
     }
 }

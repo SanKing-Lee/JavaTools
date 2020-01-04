@@ -1,1 +1,1 @@
-[{"format":"\"${name}\": \"${value}\"","name":"default","time":1578112136408},{"format":"${name}=${value}","name":"equal","time":1578112152775}]
+[{"format":"\"${name}\": \"${value}\"","name":"default","time":1578112136408},{"format":"${name}=${value}","name":"equal","time":1578112152775},{"format":"'${name}':'${value}',","name":"python-dictionary","time":1578117567376},{"format":"","name":"null","time":1578117914704},{"format":"{\n\"${name}\":\"${value}\"\n}","name":"json","time":1578118648318}]

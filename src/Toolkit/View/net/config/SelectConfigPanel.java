@@ -1,6 +1,8 @@
 package Toolkit.View.net.config;
 
 import Toolkit.Controller.FormatConfigDao;
+import Toolkit.Controller.HttpDatagramParser;
+import Toolkit.Controller.Logger;
 import Toolkit.Model.ConfigFrame.ConfigTableMode;
 import Toolkit.Model.ConfigFrame.FormatConfig;
 
@@ -13,7 +15,7 @@ import java.awt.*;
 public class SelectConfigPanel extends JPanel {
     private JButton btnAdd, btnEdit, btnDel, btnOk;
 
-    public SelectConfigPanel() {
+    public SelectConfigPanel(int panelType, JFrame parent) {
         super();
 
         ConfigTableMode configTableMode = new ConfigTableMode();
@@ -24,6 +26,7 @@ public class SelectConfigPanel extends JPanel {
         configTableSelection.addListSelectionListener(e -> {
             btnEdit.setEnabled(true);
             btnDel.setEnabled(true);
+            btnOk.setEnabled(true);
         });
 
         JPanel tablePanel = new JPanel();
@@ -57,6 +60,20 @@ public class SelectConfigPanel extends JPanel {
         });
 
         btnOk = new JButton("确认");
+        btnOk.setEnabled(false);
+        btnOk.addActionListener(e -> {
+            String formCnfName = (String) configTableMode.getValueAt(configTable.getSelectedRow(), 0);
+            FormatConfigDao fcd = FormatConfigDao.getInstance();
+            if(!fcd.existFormatConfig(formCnfName)) {
+                Logger.getInstance().info("No such format config");
+                return;
+            }
+            FormatConfig selectedFormCnf = fcd.findFormatConfig(formCnfName);
+            Logger.getInstance().info("Type: " + panelType);
+            Logger.getInstance().info("Selected format config: " + selectedFormCnf);
+            HttpDatagramParser.getInstance().setFormatConfig(panelType, selectedFormCnf);
+            parent.dispose();
+        });
 
         JPanel btnPanel = new JPanel();
         btnPanel.setLayout(new BoxLayout(btnPanel, BoxLayout.Y_AXIS));

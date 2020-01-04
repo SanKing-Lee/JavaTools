@@ -21,7 +21,7 @@ public class EditConfigFrame extends JFrame {
                 DEFAULT_WIDTH, DEFAULT_HEIGHT);
         setResizable(false);
 
-        EditConfigPanel ecp = new EditConfigPanel(fc);
+        EditConfigPanel ecp = new EditConfigPanel(fc, this);
         add(ecp, BorderLayout.CENTER);
     }
 }

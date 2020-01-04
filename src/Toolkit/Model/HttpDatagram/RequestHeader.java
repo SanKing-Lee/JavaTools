@@ -1,6 +1,7 @@
 package Toolkit.Model.HttpDatagram;
 
 import Toolkit.Controller.HttpDatagramParser;
+import Toolkit.Model.ConfigFrame.FormatConfig;
 import Toolkit.Model.Pair;
 
 import java.util.ArrayList;
@@ -9,14 +10,15 @@ import java.util.List;
 public class RequestHeader {
     private List<Pair> headerPairList;
     private String hostName;
+    private static FormatConfig formatConfig;
 
     public RequestHeader(String requestHeader) {
         String[] headers = requestHeader.split("\n");
         headerPairList = new ArrayList<>();
-        if(headers.length > 0) {
+        if (headers.length > 0) {
             for (String s : headers) {
                 String[] header = s.split(":");
-                if(header.length < 1) {
+                if (header.length < 1) {
                     continue;
                 }
                 String name = HttpDatagramParser.recoverEscape(header[0]);
@@ -33,7 +35,7 @@ public class RequestHeader {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for(Pair p: headerPairList) {
+        for (Pair p : headerPairList) {
             sb.append(sb.toString());
         }
 
@@ -47,6 +49,15 @@ public class RequestHeader {
     }
 
     public String getFormatHeaders() {
+        if (formatConfig != null) {
+            StringBuilder sb = new StringBuilder();
+            for (Pair p : headerPairList) {
+                String format = formatConfig.getFormat();
+                sb.append(format.replace("${name}", p.getName()).replace("${value}", p.getValue()));
+                sb.append("\n");
+            }
+            return sb.toString();
+        }
         StringBuilder sb = new StringBuilder();
         for (Pair p : headerPairList) {
             sb.append(p.getName());
@@ -57,5 +68,9 @@ public class RequestHeader {
             sb.append("\n");
         }
         return sb.toString();
+    }
+
+    public static void setFormatConfig(FormatConfig fc) {
+        formatConfig = fc;
     }
 }

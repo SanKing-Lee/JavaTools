@@ -10,7 +10,7 @@ public class ConfigFrame extends JFrame {
     private static final int DEFAULT_WIDTH = 460;
     private static final int DEFAULT_HEIGHT = 260;
 
-    public ConfigFrame(String title) {
+    public ConfigFrame(String title, int panelType) {
         super(title);
         Toolkit kit = Toolkit.getDefaultToolkit();
         Dimension screenSize = kit.getScreenSize();
@@ -21,7 +21,7 @@ public class ConfigFrame extends JFrame {
         ImportConfigPanel icp = new ImportConfigPanel();
 //        add(icp, BorderLayout.NORTH);
 
-        SelectConfigPanel scp = new SelectConfigPanel();
+        SelectConfigPanel scp = new SelectConfigPanel(panelType, this);
 //        add(scp, BorderLayout.CENTER);
 
         JSplitPane mainPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, icp, scp);

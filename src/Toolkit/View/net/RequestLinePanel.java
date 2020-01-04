@@ -1,11 +1,14 @@
 package Toolkit.View.net;
 
 import Toolkit.Controller.HttpDatagramParser;
+import Toolkit.View.InformationPanel;
 import Toolkit.View.net.config.ConfigFrame;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 
 public class RequestLinePanel extends JPanel {
     private JLabel lbMethod, lbUrl, lbVersion;
@@ -32,6 +35,12 @@ public class RequestLinePanel extends JPanel {
         lbUrl = new JLabel("\tUrl: ");
         tfUrl = new JTextField(21);
         btnCopyUrl = new JButton("复制");
+        btnCopyUrl.addActionListener((e)->{
+            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+            StringSelection stringSelection = new StringSelection(tfUrl.getText());
+            clipboard.setContents(stringSelection, null);
+            InformationPanel.getInstance().setInfo("已复制");
+        });
 
         JPanel urlPanel = new JPanel();
         urlPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -48,11 +57,22 @@ public class RequestLinePanel extends JPanel {
 
         btnDefForm = new JButton("...");
         btnDefForm.addActionListener(e -> {
-            ConfigFrame ecf = new ConfigFrame("自定义配置信息");
+            ConfigFrame ecf = new ConfigFrame("自定义配置信息", HttpDatagramParser.REQUEST_LINE);
             ecf.setVisible(true);
         });
+
         btnGetParaDictFormat = new JButton("格式化");
+        btnGetParaDictFormat.addActionListener(e -> {
+            taGetParam.setText(HttpDatagramParser.getInstance().getFormatPara());
+        });
+
         btnCopyGetPara = new JButton("复制");
+        btnCopyGetPara.addActionListener((e)->{
+            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+            StringSelection stringSelection = new StringSelection(taGetParam.getText());
+            clipboard.setContents(stringSelection, null);
+            InformationPanel.getInstance().setInfo("已复制");
+        });
 
         JPanel getParaBtnPanel = new JPanel();
         getParaBtnPanel.setLayout(new GridLayout(3, 1));

@@ -15,7 +15,7 @@ public class EditConfigPanel extends JPanel {
     private JTextArea taRules;
     private JButton btnCancel, btnSave;
 
-    public EditConfigPanel(FormatConfig fc) {
+    public EditConfigPanel(FormatConfig fc, JFrame parent) {
         super();
         if(fc == null) {
             fc = new FormatConfig();
@@ -34,9 +34,11 @@ public class EditConfigPanel extends JPanel {
         taRules.setText(fc.getFormat());
 
         btnCancel = new JButton("取消");
+        btnCancel.addActionListener(e -> {
+            parent.dispose();
+        });
 
         btnSave = new JButton("保存");
-
         btnSave.addActionListener(e -> {
             FormatConfig newFc = new FormatConfig();
             newFc.setName(tfName.getText());
@@ -49,6 +51,7 @@ public class EditConfigPanel extends JPanel {
             else {
                 fcd.updateFormatConfig(newFc, oldName);
             }
+            parent.dispose();
         });
 
         JPanel namePanel = new JPanel();

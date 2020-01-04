@@ -1,6 +1,7 @@
 package Toolkit.Model.HttpDatagram;
 
 import Toolkit.Controller.HttpDatagramParser;
+import Toolkit.Model.ConfigFrame.FormatConfig;
 import Toolkit.Model.HttpMethod;
 import Toolkit.Model.Pair;
 
@@ -13,6 +14,7 @@ public class RequestLine {
     private String uri;
     private String httpVersion;
     private List<Pair> paraPairList;
+    private static FormatConfig formatConfig;
 
     public RequestLine(String requestLine) {
         String[] lines = requestLine.split(" ");
@@ -81,6 +83,16 @@ public class RequestLine {
     }
 
     public String getFormatPara() {
+        if(formatConfig != null) {
+            StringBuilder sb = new StringBuilder();
+            for (Pair p : paraPairList) {
+                String format = formatConfig.getFormat();
+                sb.append(format.replace("${name}", p.getName()).replace("${value}", p.getValue()));
+                sb.append("\n");
+            }
+            return sb.toString();
+        }
+
         StringBuilder sb = new StringBuilder();
         for (Pair p : paraPairList) {
             sb.append(p.getName());
@@ -91,5 +103,9 @@ public class RequestLine {
             sb.append("\n");
         }
         return sb.toString();
+    }
+
+    public static void setFormatConfig(FormatConfig fc) {
+        formatConfig = fc;
     }
 }
