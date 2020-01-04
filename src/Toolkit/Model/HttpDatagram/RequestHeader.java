@@ -1,32 +1,39 @@
 package Toolkit.Model.HttpDatagram;
 
+import Toolkit.Controller.HttpDatagramParser;
 import Toolkit.Model.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RequestHeader {
-    private List<Pair> mHeaders;
+    private List<Pair> headerPairList;
     private String hostName;
 
     public RequestHeader(String requestHeader) {
-//        System.out.println("requestHeader: " + requestHeader);
         String[] headers = requestHeader.split("\n");
-        mHeaders = new ArrayList<>();
-        for (String s : headers) {
-            String[] header = s.split(":");
-            if(header[0].equals("Host")) {
-                hostName = header[1];
+        headerPairList = new ArrayList<>();
+        if(headers.length > 0) {
+            for (String s : headers) {
+                String[] header = s.split(":");
+                if(header.length < 1) {
+                    continue;
+                }
+                String name = HttpDatagramParser.recoverEscape(header[0]);
+                String value = HttpDatagramParser.recoverEscape(header[1]);
+                if (name.equals("Host")) {
+                    hostName = value;
+                }
+                Pair headerPair = new Pair(name, value);
+                headerPairList.add(headerPair);
             }
-            Pair headerPair = new Pair(header[0], header[1]);
-            mHeaders.add(headerPair);
         }
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for(Pair p:mHeaders) {
+        for(Pair p: headerPairList) {
             sb.append(sb.toString());
         }
 
@@ -37,5 +44,18 @@ public class RequestHeader {
 
     public String getHostName() {
         return hostName;
+    }
+
+    public String getFormatHeaders() {
+        StringBuilder sb = new StringBuilder();
+        for (Pair p : headerPairList) {
+            sb.append(p.getName());
+            sb.append(":");
+            sb.append("{");
+            sb.append(p.getValue());
+            sb.append("}");
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 }

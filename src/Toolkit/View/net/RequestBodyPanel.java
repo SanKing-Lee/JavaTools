@@ -17,10 +17,10 @@ public class RequestBodyPanel extends JPanel {
         taRequestBody.setLineWrap(true);
         JScrollPane spRequestBody = new JScrollPane();
         spRequestBody.setViewportView(taRequestBody);
-        spRequestBody.setBorder(new TitledBorder("内容字段"));
+//        spRequestBody.setBorder(new TitledBorder("内容字段"));
 
         btnDefForm = new JButton("...");
-        btnReqBodyDicForm = new JButton("键值对");
+        btnReqBodyDicForm = new JButton("格式化");
         btnCopyReqBody = new JButton("复制");
 
         JPanel reqBodyBtnPanel = new JPanel();
@@ -37,6 +37,6 @@ public class RequestBodyPanel extends JPanel {
 
     public void updateParseResult() {
         HttpDatagramParser hdp = HttpDatagramParser.getInstance();
-        taRequestBody.setText(hdp.getsReqBody());
+        taRequestBody.setText(hdp.getFormatBody());
     }
 }

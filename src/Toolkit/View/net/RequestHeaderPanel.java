@@ -18,10 +18,10 @@ public class RequestHeaderPanel extends JPanel {
         taRequestHeader.setWrapStyleWord(true);
         JScrollPane spRequestHeader = new JScrollPane();
         spRequestHeader.setViewportView(taRequestHeader);
-        spRequestHeader.setBorder(new TitledBorder("头部字段"));
+//        spRequestHeader.setBorder(new TitledBorder("头部字段"));
 
         btnDefForm = new JButton("...");
-        btnReqHeadDictFormat = new JButton("键值对");
+        btnReqHeadDictFormat = new JButton("格式化");
         btnCopyReqHead = new JButton("复制");
 
         JPanel reqHeadBtnPanel = new JPanel();
@@ -38,6 +38,6 @@ public class RequestHeaderPanel extends JPanel {
 
     public void updateParseResult() {
         HttpDatagramParser hdp = HttpDatagramParser.getInstance();
-        taRequestHeader.setText(hdp.getsReqHead());
+        taRequestHeader.setText(hdp.getFormatHeaders());
     }
 }

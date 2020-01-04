@@ -11,6 +11,8 @@ public class MainFrame extends JFrame {
     public static int DEFAULT_TABBED_PANEL_X_POSITION = 0;
     public static int DEFAULT_TABBED_PANEL_WIDTH = DEFAULT_WIDTH - 20;
 
+    public static int NEW_FRAME_OFFSET = 20;
+
     public MainFrame(String title) {
         super(title);
         Toolkit kit = Toolkit.getDefaultToolkit();

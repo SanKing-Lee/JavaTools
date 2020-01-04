@@ -1,5 +1,6 @@
 package Toolkit.Model.HttpDatagram;
 
+import Toolkit.Controller.HttpDatagramParser;
 import Toolkit.Model.HttpMethod;
 import Toolkit.Model.Pair;
 
@@ -11,13 +12,11 @@ public class RequestLine {
     private HttpMethod method;
     private String uri;
     private String httpVersion;
-
-    private String sGetPara;
-
-    private List<Pair> getParas;
+    private List<Pair> paraPairList;
 
     public RequestLine(String requestLine) {
         String[] lines = requestLine.split(" ");
+        // method
         switch (lines[0]) {
             case "get":
             case "Get":
@@ -30,22 +29,26 @@ public class RequestLine {
                 method = HttpMethod.POST;
                 break;
         }
-        String getUri = lines[1];
+        // uri
+        String sUri = lines[1];
+        // version
         httpVersion = lines[2];
 
-        getParas = new ArrayList<>();
-        String[] saGetPara = getUri.split("\\?");
-        if (saGetPara.length > 1) {
-            uri = saGetPara[0];
-            sGetPara = saGetPara[1];
-            String[] saGetParas = sGetPara.split("&");
+        // para
+        paraPairList = new ArrayList<>();
+        String[] spPara = sUri.split("\\?");
+        uri = spPara[0];
+        if (spPara.length > 1) {
+            String sPara = spPara[1];
+            String[] saGetParas = sPara.split("&");
             for (String para : saGetParas) {
                 String[] paraPair = para.split("=");
-                String name = paraPair[0];
-                String value = paraPair[1];
-
-                Pair getPara = new Pair(name, value);
-                getParas.add(getPara);
+                if (paraPair.length > 1) {
+                    String name = HttpDatagramParser.recoverEscape(paraPair[0]);
+                    String value = HttpDatagramParser.recoverEscape(paraPair[1]);
+                    Pair getPara = new Pair(name, value);
+                    paraPairList.add(getPara);
+                }
             }
         }
     }
@@ -53,7 +56,7 @@ public class RequestLine {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (Pair p : getParas) {
+        for (Pair p : paraPairList) {
             sb.append(p.toString());
         }
 
@@ -77,11 +80,16 @@ public class RequestLine {
         return httpVersion;
     }
 
-    public List<Pair> getGetParas() {
-        return getParas;
-    }
-
-    public String getsGetPara() {
-        return sGetPara;
+    public String getFormatPara() {
+        StringBuilder sb = new StringBuilder();
+        for (Pair p : paraPairList) {
+            sb.append(p.getName());
+            sb.append("=");
+            sb.append("{");
+            sb.append(p.getValue());
+            sb.append("}");
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 }

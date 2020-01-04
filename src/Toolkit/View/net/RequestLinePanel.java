@@ -1,6 +1,7 @@
 package Toolkit.View.net;
 
 import Toolkit.Controller.HttpDatagramParser;
+import Toolkit.View.net.config.ConfigFrame;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -43,11 +44,11 @@ public class RequestLinePanel extends JPanel {
         taGetParam.setWrapStyleWord(true);
         JScrollPane spGetParam = new JScrollPane();
         spGetParam.setViewportView(taGetParam);
-        spGetParam.setBorder(new TitledBorder("请求参数"));
+//        spGetParam.setBorder(new TitledBorder("请求参数"));
 
         btnDefForm = new JButton("...");
         btnDefForm.addActionListener(e -> {
-            EditConfigFrame ecf = new EditConfigFrame();
+            ConfigFrame ecf = new ConfigFrame("自定义配置信息");
             ecf.setVisible(true);
         });
         btnGetParaDictFormat = new JButton("格式化");
@@ -73,6 +74,6 @@ public class RequestLinePanel extends JPanel {
         tfMethod.setText(hdp.getMethod().toString());
         tfVersion.setText(hdp.getHttpVersion());
         tfUrl.setText(hdp.getUrl());
-        taGetParam.setText(hdp.getsGetPara());
+        taGetParam.setText(hdp.getFormatPara());
     }
 }

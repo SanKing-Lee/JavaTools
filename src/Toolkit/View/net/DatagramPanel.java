@@ -25,7 +25,7 @@ public class DatagramPanel extends JPanel {
 
         JScrollPane spRequest = new JScrollPane();
         spRequest.setViewportView(taRequest);
-        spRequest.setBorder(new TitledBorder("报文"));
+//        spRequest.setBorder(new TitledBorder("报文"));
 
         btnRequestPaste = new JButton("粘贴");
         btnRequestPaste.addActionListener(e -> {

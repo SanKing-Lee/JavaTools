@@ -5,6 +5,7 @@ import Toolkit.Model.HttpDatagram.RequestHeader;
 import Toolkit.Model.HttpDatagram.RequestLine;
 import Toolkit.Model.HttpMethod;
 import Toolkit.Model.Pair;
+import Toolkit.View.InformationPanel;
 
 import java.util.List;
 
@@ -20,7 +21,9 @@ public class HttpDatagramParser {
     private String sReqBody;
 
     private HttpDatagramParser() {
-
+        sReqLine = "";
+        sReqHead = "";
+        sReqBody = "";
     }
 
     public static HttpDatagramParser getInstance() {
@@ -30,22 +33,36 @@ public class HttpDatagramParser {
         return mInstance;
     }
 
+    public static String recoverEscape(String url) {
+        if (url == null) {
+            return "";
+        }
+        return url.replace("%2B", "+")
+                .replace("%20", " ")
+                .replace("%2F", "/")
+                .replace("%3F", "?")
+                .replace("%25", "%")
+                .replace("%23", "#")
+                .replace("%26", "&")
+                .replace("%3D", "=")
+                ;
+    }
+
     public void parse(String datagram) {
         int firstRetIndex = datagram.indexOf('\n');
         sReqLine = datagram.substring(0, firstRetIndex);
-        String headerAndBody = datagram.substring(firstRetIndex+1);
+        String headerAndBody = datagram.substring(firstRetIndex + 1);
         String[] splitHeaderBody = headerAndBody.split("\n\n");
         sReqHead = splitHeaderBody[0];
-        sReqBody = splitHeaderBody[1];
+        if (splitHeaderBody.length > 1) {
+            sReqBody = splitHeaderBody[1];
+        }
 
         requestLine = new RequestLine(sReqLine);
-
-        System.out.println(sReqLine);
-        System.out.println(sReqHead);
-        System.out.println(sReqBody);
         requestHeader = new RequestHeader(sReqHead);
+        requestBody = new RequestBody(sReqBody);
 
-//        System.out.println(requestLine + "\n" + requestHeader);
+        InformationPanel.getInstance().setInfo("解析完成！");
     }
 
     public HttpMethod getMethod() {
@@ -56,31 +73,19 @@ public class HttpDatagramParser {
         return requestLine.getHttpVersion();
     }
 
-    public String getUri() {
-        return requestLine.getUri();
-    }
-
     public String getUrl() {
         return requestHeader.getHostName() + requestLine.getUri();
     }
 
-    public List<Pair> getGetParas() {
-        return requestLine.getGetParas();
+    public String getFormatPara() {
+        return requestLine.getFormatPara();
     }
 
-    public String getsGetPara() {
-        return requestLine.getsGetPara().replace("&", "\n");
+    public String getFormatHeaders() {
+        return requestHeader.getFormatHeaders();
     }
 
-    public String getsReqLine() {
-        return sReqLine;
-    }
-
-    public String getsReqHead() {
-        return sReqHead;
-    }
-
-    public String getsReqBody() {
-        return sReqBody.replace("&", "\n");
+    public String getFormatBody() {
+        return requestBody.getFormatBody();
     }
 }
